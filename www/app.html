@@ -1,0 +1,119 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+<head>
+	<title>webrtc chat lab</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta http-equiv="Content-Language" content="en-us">
+
+	<script type="text/javascript" src="./js/jquery-2.0.3.min.js"></script>
+	<script type="text/javascript" src="./js/adapter.js"></script>
+	<script type="text/javascript" src="./js/lazy.min.js"></script>
+	<script type="text/javascript" src="./js/lazy.dom.js"></script>
+	<script type="text/javascript" src="./js/app.js"></script>
+</head>
+
+<body>
+<h3>Server-less WebRTC connection test</h3>
+<button id="instbtn">Show - How to use</button>
+
+<div id ='inst' style='display:none' style='background-color:#ccccff;'>
+Open 2 BrowserWindows (Chrom/Firefox) for this site<br>
+Click -offer- button of one of them<br>
+<pre style='background-color:#ddddff;'>
+var offerCreate = function()
+{
+    peerCon
+        .createOffer(function(description)
+        {
+            peerCon
+                .setLocalDescription(description, function()
+                {
+                    console.log(JSON.stringify(description));
+                    $('#local')
+                        .text(JSON.stringify(description));
+                }, error);
+        }, error);
+};
+</pre><br>
+<img src="https://lh6.googleusercontent.com/-0qo7pepPkrk/Uq6sT-xLcqI/AAAAAAAAEqM/B5uEIwc7A-0/w660-h372-no/Untitled.png
+"><br>
+Copy the output and Paste to RemoteDescription TextArea on the other side(right).<br>
+<img src="https://lh5.googleusercontent.com/-RKkjx1ikn-Y/Uq6sVO6hgVI/AAAAAAAAEqU/2gNe-IGl7YI/w659-h372-no/Untitled+2.png
+"> <br>
+Click -create answer- button <br>
+<pre style='background-color:#ddddff;'>
+var answerCreate = function(descreption)
+{
+    peerCon
+        .setRemoteDescription(descreption, function()
+        {
+            peerCon
+                .createAnswer(
+                    function(description)
+                    {
+                        peerCon
+                            .setLocalDescription(description, function()
+                            {
+                                console.log(JSON.stringify(description));
+                                $('#local')
+                                    .text(JSON.stringify(description));
+
+                            }, error);
+                    }, error);
+        }, error);
+};
+</pre><br>
+then, Copy the output at the LocalDescription and Paste to RemoteDescription TextArea on the other side(left).
+<br>
+<img src="https://lh3.googleusercontent.com/-WLkcXBhhToc/Uq6sWfqszJI/AAAAAAAAEqc/MaKFuHLBfmw/w660-h372-no/Untitled+3.png
+"><br>
+Finally, Click -get answer- button
+<br>
+<pre style='background-color:#ddddff;'>
+var answerGet = function(description)
+{
+    peerCon.setRemoteDescription(description, function()
+    {
+        console.log(JSON.stringify(description));
+        alert('local-remote-setDescriptions complete!');
+    }, error);
+};
+</pre><br>
+<img src="https://lh6.googleusercontent.com/-o33jhgnnHyc/Uq6sXlRzsfI/AAAAAAAAEqk/skosgS2flmw/w661-h372-no/Untitled+4.png
+"><br><br>
+</div>
+
+<button id="instclosebtn" style='display:none'>Hide - How to use</button>
+
+<script type="text/javascript">
+	$('#instbtn').click(function()
+	{// 
+		$('#instbtn').hide();
+		$('#instclosebtn').show();
+		$('#inst').show();	
+	});
+	$('#instclosebtn').click(function()
+	{// 
+		$('#instclosebtn').hide();
+		$('#instbtn').show();
+		$('#inst').hide();	
+	});
+</script>
+<br><br>
+LocalDescription
+<button id="localbtn">offer</button><br>
+<textarea id ='local' cols="60" rows="20" readonly style='background-color:#cccccc;'></textarea> <br> 
+<br>
+RemoteDescription<br>
+<textarea id ='remote' cols="60" rows="20"></textarea> <br>
+	<button id="remotebtn">create answer</button>
+	<button id="remotebtn2">get answer</button>
+
+<br>
+<textarea id ='msg' cols="60" rows="1"></textarea> <br>
+<button id="msgbtn">send</button>
+<div id = 'onmsg'> </msg>
+</body>
+
+</html>
